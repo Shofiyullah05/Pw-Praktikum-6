@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PT. Once Sejahtera</title>
+        <style>
+            .table-hasil {
+            width: 100%;
+            border-collapse: 2px;
+        }   
+
+        .table-hasil th {
+            background: #5fb48a;
+            color: #FFFFFF;
+            padding: 1em;
+            text-align: left;
+            text-transform: uppercase;
+            border-collapse: 2px;
+        }
+
+        .table-hasil td {
+            border-bottom: 1px solid #ddd;
+            padding: 1em;
+            border-collapse: 2px;
+        }
+
+        /* EVEN */
+
+        .table-hasil tr:nth-child(even) {
+            background: #23aa1e;
+            border-collapse: 2px;
+        }
+
+        /* ODD */
+
+        .table-hasil tr:nth-child(odd) {
+            background: #D5DDE8;
+            border-collapse: 2px;
+        }
+
+        .kosong {
+            background: red;
+            color:white;
+            border-collapse: 2px;
+        }
+        </style>
+    </head>
+    <body>
+        <h1 align = "center">PT. Once Sejahtera</h1>
+        <p>Nama Pelanggan</p>
+        <input type="text" id="nama", placeholder="Masukkan nama">
+        <br>
+        <p>Jumlah Pemakaian</p>
+        <input type="number" id="hari", placeholder="Masukkan jumlah hari">
+        <select name="kategori" id="kategori">
+            <option value="sosial">Sosial</option>
+            <option value="rumah">Rumah</option>
+            <option value="apartmen">Apartmen</option>
+            <option value="industri">Industri</option>
+            <option value="villa">Villa</option>
+
+        </select>
+        <button onclick="myFunction()">Hitung</button>
+        <br>
+        <br>
+        <table border="1", id="id_table">
+            <td>Nama Pelanggan</td>
+            <td>Kategori</td>
+            <td>Jumlah Pemakaian</td>
+
+        </table>
+        
+        <div id="result"></div>
+        <script>
+            var arrays = [];
+            arrays['sosial'] = {kategori:"Sosial", abodemen:10000, tarif:300, pajak:0};
+            arrays['rumah'] = {kategori:"Rumah", abodemen:30000, tarif:500, pajak:0.1};
+            arrays['apartmen'] = {kategori:"Apartmen", abodemen:50000, tarif:750, pajak:0.15};
+            arrays['industri'] = {kategori:"Industri", abodemen:75000, tarif:1000, pajak:0.2};
+            arrays['villa'] = {kategori:"Villa", abodemen:100000, tarif:1250, pajak:0.25};
+
+            function myFunction() {
+                var nama = document.getElementById("nama").value;
+                var hari = document.getElementById("hari").value;
+                
+                var kategori = document.getElementById("kategori").value;
+                var data = arrays[kategori];
+                var subtotal = (hari*data.tarif)+data.abodemen
+                var pajak = (subtotal*data.pajak)
+                var bayar = subtotal+pajak
+                var tabel = document.getElementById("id_table");
+                var row = tabel.insertRow(1)
+                var cel1 = row.insertCell(0);
+                var cel2 = row.insertCell(1);
+                var cel3 = row.insertCell(2);
+                cel1.innerHTML = nama;
+                cel2.innerHTML = kategori;
+                cel3.innerHTML = hari;
+
+                var html = "<table class='table-hasil'>";
+                    html+="<tr>";
+                    html+="<td>Jumlah</td>";
+                    html+="<td>Tarif per KWH</td>";
+                    html+="<td>Abodemen</td>";
+                    html+="<td>Subtotal</td>";
+                    html+="</tr>";
+
+                if (hari>30) {
+                    alert ("Jumlah hari tidak boleh lebih dari 30");
+                }
+                else {
+                    for (let index = 1; index <= hari; index++) {
+                    html+= "<tr>";
+                    html+= "<td>"+index+"</td>";
+                    html+= "<td>"+data.tarif*index+"</td>";
+                    html+= "<td>"+data.abodemen+"</td>";
+                    html+= "<td>"+(data.abodemen+(data.tarif*index))+"</td>";
+                    html+= "</tr>";
+                }
+                html+= "<tr><td colspan='4'> subtotal: "+subtotal+"</td></tr>";
+                html+= "<tr><td colspan='4'> pajak: "+pajak+"</td></tr>";
+                html+= "<tr><td colspan='4'> bayar: "+bayar+"</td></tr>";
+                html+= "</table>";
+
+                document.getElementById("result").innerHTML=html
+                }
+                
+                
+            }
+
+        </script>
+    </body>
+</html>
